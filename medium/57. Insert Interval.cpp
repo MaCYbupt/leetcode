@@ -44,3 +44,30 @@ public:
         return result;
     }
 };
+
+/*
+一个非常粗暴的做法
+第一个循环用来查找插入的位置，用insert来是否标记进行了插入操作
+*／
+
+class Solution {
+public:
+    vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
+        vector<Interval> res;
+        int index = 0;
+        while(index < intervals.size() && intervals[index].end < newInterval.start){
+            res.push_back(intervals[index++]);
+        }
+        while(index < intervals.size() && intervals[index].start <= newInterval.end){
+            newInterval.start = min(newInterval.start, intervals[index].start);
+            newInterval.end = max(newInterval.end, intervals[index].end);
+            index++;
+        }
+        res.push_back(newInterval);
+        while(index < intervals.size()){
+            res.push_back(intervals[index++]);
+        }
+        return res;
+    }
+};
+        
